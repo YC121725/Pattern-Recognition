@@ -72,7 +72,7 @@ def Bi_Bayes(mean1 = [1,0],
     w2_error = 0
     
     for i in range(N):
-        if
+        if i 
     
     
     
