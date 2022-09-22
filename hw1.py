@@ -68,11 +68,11 @@ def Bi_Bayes(mean1 = [1,0],
     print('决策面方程为：{}x1 + {}x2 + {} = 0'.format(W[0, 0], W[0, 1],C[0, 0]))
     
     ''' 计算错误率'''
-    # w1_error = 0
-    # w2_error = 0
+    w1_error = 0
+    w2_error = 0
     
-    # for i in range(N):
-    #     if W[0, 0]*x1[i,0] + W[0, 1]*x1[i,1] + C[0, 0]>0:
+    for i in range(N):
+        if W[0, 0]*x1[i,0] + W[0, 1]*x1[i,1] + C[0, 0]>0:
             
     
     
