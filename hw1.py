@@ -96,14 +96,15 @@ def Bi_Bayes(mean1 = [1,0],
         if issave:
             plt.savefig('./x1均值{}_{}_x2均值{}_{}_各{}.png'.format(mean1[0,0],mean1[0,1],mean2[0,0],mean2[0,1],N))
               
-    return 0
+    return float(w1_error/N),float(w2_error/N)
 
 
 if __name__=='__main__':
-    mean1 = [2,1]
+    mean1 = [1,0]
     mean2=[-1,0]
     cov1=np.matrix([[1,0],[0,1]])
     cov2=np.matrix([[1,0],[0,1]])
-    Bi_Bayes(mean1,mean2,cov1,cov2,100)
+    A,B = Bi_Bayes(mean1,mean2,cov1,cov2,50)
+    print(A,B)
 
 
