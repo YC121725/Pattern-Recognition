@@ -1,7 +1,13 @@
 # 贝叶斯两类决策
-from ast import If
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import multivariate_normal
+
+
+def Gaussion (mean,cov,M):
+    ''' 生成高斯样本'''
+    sample = np.random.multivariate_normal(mean=mean, cov=cov, size=M) 
+    return sample
 
 
 def Bi_Bayes(mean1 = [1,0],
@@ -9,7 +15,7 @@ def Bi_Bayes(mean1 = [1,0],
              cov1=np.matrix([[1,0],[0,1]]),
              cov2=np.matrix([[1,0],[0,1]]),
              N=50,
-             isshow = True,
+             save_path ='./',
              issave = False):
     '''
     Parameter:
@@ -22,11 +28,6 @@ def Bi_Bayes(mean1 = [1,0],
     '''
     
     np.random.seed(0)
-
-    # N = 50                               # 样本数量
-    # mean1 = [1, 0]                       # 第一类的均值
-    # mean2 = [-1, 0]                      # 第二类的均值
-    # cov = np.matrix([[1, 0], [0, 1]])    # 协方差矩阵
 
     x1 = np.random.multivariate_normal(mean=mean1, cov=cov1, size=N)  # 随机高斯抽样
     x2 = np.random.multivariate_normal(mean=mean2, cov=cov2, size=N)
@@ -78,33 +79,53 @@ def Bi_Bayes(mean1 = [1,0],
     print('w2 error',w2_error)
     
     ''' 绘图'''            
-    if isshow:
-        # fig = plt.figure()
-        # ax = fig.add_axes([0,0,1,1])
-        plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
-        plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
-        plt.title('Bayesian_Decision')
-        plt.xlabel('X分量1')
-        plt.ylabel('X分量2')
-        # ax.set_xlim(min(x1[:, 0]+x2[:, 0]), max(x1[:, 1]+x2[:, 1]))
-        # ax.set_ylim()
-        plt.contour(Xx1, Xx2, z, 0)
-        plt.scatter(x1[:, 0], x1[:, 1])
-        plt.scatter(x2[:, 0], x2[:, 1])
-        plt.legend(('Sample1','Sample2'),loc='upper right')
-        plt.show()
-        if issave:
-            plt.savefig('./x1均值{}_{}_x2均值{}_{}_各{}.png'.format(mean1[0,0],mean1[0,1],mean2[0,0],mean2[0,1],N))
-              
+
+    # fig = plt.figure()
+    # ax = fig.add_axes([0,0,1,1])
+    plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+    plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+    plt.title('Bayesian_Decision')
+    plt.xlabel('X分量1')
+    plt.ylabel('X分量2')
+    # ax.set_xlim(min(x1[:, 0]+x2[:, 0]), max(x1[:, 1]+x2[:, 1]))
+    # ax.set_ylim()
+    plt.contour(Xx1, Xx2, z, 0)
+    plt.scatter(x1[:, 0], x1[:, 1])
+    plt.scatter(x2[:, 0], x2[:, 1])
+    plt.legend(('Sample1','Sample2'),loc='upper right') 
+    if issave:
+        plt.savefig(save_path+'x1均值{}_{}_x2均值{}_{}_各{}.png'.format(mean1[0,0],mean1[0,1],mean2[0,0],mean2[0,1],N),dpi=1000)
+    plt.show() 
     return float(w1_error/N),float(w2_error/N)
 
 
 if __name__=='__main__':
     mean1 = [1,0]
-    mean2=[-1,0]
+    mean2 = [-1,0]
     cov1=np.matrix([[1,0],[0,1]])
     cov2=np.matrix([[1,0],[0,1]])
-    A,B = Bi_Bayes(mean1,mean2,cov1,cov2,50)
-    print(A,B)
+    save_path = 'D:/Study/Project/NLP/Pattern/Pattern-Recognition/picture/'
+    
+    X= Gaussion(mean=[1,0],cov=cov1,M=50)
+    
+    A = []
+    B = []
+    
+    for i in range(10):    
+        e1,e2 = Bi_Bayes(mean1,mean2,cov1,cov2,50*(i+1),save_path=save_path,issave=True)
+        A.append(e1)
+        B.append(e2)
+    C = [(A[i]+B[i])/2 for i in range(10)]
+    x = np.linspace(50,500,10)
+    plt.plot(x,A)
+    plt.plot(x,B)
+    plt.plot(x,C)
+    plt.title('Error with Number of Sample')
+    plt.xlabel('Number of Sample')
+    plt.ylabel('Error Rate')
+    plt.legend(('W1_Error','W2_Error','Average Error'),loc='upper right')
+    plt.savefig(save_path+'Error_Rate.png')
+    plt.show()
+        
 
 
