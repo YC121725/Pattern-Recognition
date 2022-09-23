@@ -99,4 +99,4 @@ def Bi_Bayes(mean1 = [1,0],
 ```
 
 ##### x1均值1_0_x2均值-1_0_各50
-![图片](D:/Study/Project/NLP/Pattern/Pattern-Recognition/x1均值1_0_x2均值-1_0_各50.png)
+![picture](D:/Study/Project/NLP/Pattern/Pattern-Recognition/x1均值1_0_x2均值-1_0_各50.png)
