@@ -112,10 +112,13 @@ if __name__=='__main__':
     B = []
     
     for i in range(10):    
-        e1,e2 = Bi_Bayes(mean1,mean2,cov1,cov2,50*(i+1),save_path=save_path,issave=True)
+        e1,e2 = Bi_Bayes(mean1,mean2,cov1,cov2,50*(i+1),save_path=save_path,issave=False)
         A.append(e1)
         B.append(e2)
     C = [(A[i]+B[i])/2 for i in range(10)]
+    print(A)
+    print(B)
+    
     x = np.linspace(50,500,10)
     plt.plot(x,A)
     plt.plot(x,B)

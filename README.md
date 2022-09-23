@@ -1,19 +1,19 @@
 # Pattern-Recognition_HW1
-#### (1)产生d维高斯分布样本点
+#### 产生d维高斯分布样本点
 ```py
 def Gaussion (mean,cov,M):
     ''' 生成高斯样本'''
     sample = np.random.multivariate_normal(mean=mean, cov=cov, size=M) 
     return sample
 ```
-#### (2)贝叶斯边界
+#### 贝叶斯边界
 ```py
 def Bi_Bayes(mean1 = [1,0],
              mean2=[-1,0],
              cov1=np.matrix([[1,0],[0,1]]),
              cov2=np.matrix([[1,0],[0,1]]),
              N=50,
-             isshow = True,
+             save_path ='./',
              issave = False):
     '''
     Parameter:
@@ -77,26 +77,99 @@ def Bi_Bayes(mean1 = [1,0],
     print('w2 error',w2_error)
     
     ''' 绘图'''            
-    if isshow:
-        # fig = plt.figure()
-        # ax = fig.add_axes([0,0,1,1])
-        plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
-        plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
-        plt.title('Bayesian_Decision')
-        plt.xlabel('X分量1')
-        plt.ylabel('X分量2')
-        # ax.set_xlim(min(x1[:, 0]+x2[:, 0]), max(x1[:, 1]+x2[:, 1]))
-        # ax.set_ylim()
-        plt.contour(Xx1, Xx2, z, 0)
-        plt.scatter(x1[:, 0], x1[:, 1])
-        plt.scatter(x2[:, 0], x2[:, 1])
-        plt.legend(('Sample1','Sample2'),loc='upper right')
-        plt.show()
-        if issave:
-            plt.savefig('./x1均值{}_{}_x2均值{}_{}_各{}.png'.format(mean1[0,0],mean1[0,1],mean2[0,0],mean2[0,1],N))
-              
+
+    # fig = plt.figure()
+    # ax = fig.add_axes([0,0,1,1])
+    plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+    plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+    plt.title('Bayesian_Decision')
+    plt.xlabel('X分量1')
+    plt.ylabel('X分量2')
+    # ax.set_xlim(min(x1[:, 0]+x2[:, 0]), max(x1[:, 1]+x2[:, 1]))
+    # ax.set_ylim()
+    plt.contour(Xx1, Xx2, z, 0)
+    plt.scatter(x1[:, 0], x1[:, 1])
+    plt.scatter(x2[:, 0], x2[:, 1])
+    plt.legend(('Sample1','Sample2'),loc='upper right') 
+    if issave:
+        plt.savefig(save_path+'x1均值{}_{}_x2均值{}_{}_各{}.png'.format(mean1[0,0],mean1[0,1],mean2[0,0],mean2[0,1],N),dpi=1000)
+    plt.show() 
     return float(w1_error/N),float(w2_error/N)
 ```
-
-##### x1均值1_0_x2均值-1_0_各50
+#### Main
+```py
+if __name__=='__main__':
+    mean1 = [1,0]
+    mean2 = [-1,0]
+    cov1=np.matrix([[1,0],[0,1]])
+    cov2=np.matrix([[1,0],[0,1]])
+    save_path = 'D:/Study/Project/NLP/Pattern/Pattern-Recognition/picture/'
+    
+    X= Gaussion(mean=[1,0],cov=cov1,M=50)
+    
+    A = []
+    B = []
+    
+    for i in range(10):    
+        e1,e2 = Bi_Bayes(mean1,mean2,cov1,cov2,50*(i+1),save_path=save_path,issave=False)
+        A.append(e1)
+        B.append(e2)
+    C = [(A[i]+B[i])/2 for i in range(10)]
+    print(A)
+    print(B)
+    
+    x = np.linspace(50,500,10)
+    plt.plot(x,A)
+    plt.plot(x,B)
+    plt.plot(x,C)
+    plt.title('Error with Number of Sample')
+    plt.xlabel('Number of Sample')
+    plt.ylabel('Error Rate')
+    plt.legend(('W1_Error','W2_Error','Average Error'),loc='upper right')
+    plt.savefig(save_path+'Error_Rate.png')
+    plt.show()
+```
+#### 结果
+##### 1. x1均值1_0_x2均值-1_0_各50
 ![picture](./picture/x1均值1_0_x2均值-1_0_各50.png)
+`W1_Error Rate = 0.16`
+`W2_Error Rate = 0.14`
+##### 2. x1均值1_0_x2均值-1_0_各100
+![picture](./picture/x1均值1_0_x2均值-1_0_各100.png)
+`W1_Error Rate = 0.18`
+`W2_Error Rate = 0.1`
+##### 3. x1均值1_0_x2均值-1_0_各150
+![picture](./picture/x1均值1_0_x2均值-1_0_各150.png)
+`W1_Error Rate = 0.173`
+`W2_Error Rate = 0.113`
+##### 4. x1均值1_0_x2均值-1_0_各200
+![picture](./picture/x1均值1_0_x2均值-1_0_各200.png)
+`W1_Error Rate = 0.175`
+`W2_Error Rate = 0.125`
+##### 5. x1均值1_0_x2均值-1_0_各250
+![picture](./picture/x1均值1_0_x2均值-1_0_各250.png)
+`W1_Error Rate = 0.172`
+`W2_Error Rate = 0.124`
+##### 6. x1均值1_0_x2均值-1_0_各300
+![picture](./picture/x1均值1_0_x2均值-1_0_各300.png)
+`W1_Error Rate = 0.18`
+`W2_Error Rate = 0.15`
+##### 7. x1均值1_0_x2均值-1_0_各350
+![picture](./picture/x1均值1_0_x2均值-1_0_各350.png)
+`W1_Error Rate = 0.17429`
+`W2_Error Rate = 0.1486`
+##### 8. x1均值1_0_x2均值-1_0_各400
+![picture](./picture/x1均值1_0_x2均值-1_0_各400.png)
+`W1_Error Rate = 0.1675`
+`W2_Error Rate = 0.145`
+##### 9. x1均值1_0_x2均值-1_0_各450
+![picture](./picture/x1均值1_0_x2均值-1_0_各450.png)
+`W1_Error Rate = 0.162`
+`W2_Error Rate = 0.142`
+##### 10. x1均值1_0_x2均值-1_0_各500
+![picture](./picture/x1均值1_0_x2均值-1_0_各500.png)
+`W1_Error Rate = 0.156`
+`W2_Error Rate = 0.144`
+
+##### Error
+![picture](./picture/Error_Rate.png)
