@@ -18,12 +18,16 @@ def Bi_Bayes(mean1 = [1,0],
              save_path ='./',
              issave = False):
     '''
+    Bi_Bayes
+    ------------
+    此函数为两类二维高斯贝叶斯分类器。
+    
     Parameter:
     -------------
     mean1,mean2：两类的均值
     cov1,cov2：两类分别的协方差
     N：各多少个样本值
-    isshow：是否展示图片，默认True
+    save_path：保存路径
     issave：是否保存图片，默认False
     '''
     
