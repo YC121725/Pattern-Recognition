@@ -104,7 +104,7 @@ def Bi_Bayes(mean1 = [1,0],
 
 
 if __name__=='__main__':
-    mean1 = [1,0]
+    mean1 = [2,1]
     mean2 = [-1,0]
     cov1=np.matrix([[1,0],[0,1]])
     cov2=np.matrix([[1,0],[0,1]])
